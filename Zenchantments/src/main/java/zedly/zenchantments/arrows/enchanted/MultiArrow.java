@@ -26,6 +26,7 @@ public class MultiArrow extends EnchantedArrow {
 	public void onImpact() {
 		Arrow p = arrow.getWorld().spawnArrow(arrow.getLocation(), arrow.getVelocity(),
 			(float) (arrow.getVelocity().length() / 10), 0);
+		p.setShooter(this.arrow.getShooter());
 		p.setFireTicks(arrow.getFireTicks());
 		p.getLocation().setDirection(arrow.getLocation().getDirection());
 		p.setMetadata("ze.arrow", new FixedMetadataValue(Storage.zenchantments, null));

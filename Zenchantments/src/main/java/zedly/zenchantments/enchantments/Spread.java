@@ -43,8 +43,8 @@ public class Spread extends CustomEnchantment {
 		ItemStack hand = Utilities.usedStack(player, usedHand);
 		MultiArrow ar = new MultiArrow(originalArrow);
 		EnchantedArrow.putArrow(originalArrow, ar, player);
-		Bukkit.getPluginManager().callEvent(
-			new EntityShootBowEvent(player, hand, originalArrow, (float) originalArrow.getVelocity().length()));
+//		Bukkit.getPluginManager().callEvent(
+//			new EntityShootBowEvent(player, hand, originalArrow, (float) originalArrow.getVelocity().length()));
 		Utilities.damageTool(player, (int) Math.round(level / 2.0 + 1), usedHand);
 		for (int i = 0; i < (int) Math.round(power * level * 4); i++) {
 			Vector v = originalArrow.getVelocity();
@@ -54,18 +54,19 @@ public class Spread extends CustomEnchantment {
 				player.getEyeLocation().add(player.getLocation().getDirection().multiply(1.0)), v, 1, 0);
 			arrow.setShooter(player);
 			arrow.setVelocity(v.normalize().multiply(originalArrow.getVelocity().length()));
+			arrow.setTicksLived(1000);
 			arrow.setFireTicks(originalArrow.getFireTicks());
 			arrow.setKnockbackStrength(originalArrow.getKnockbackStrength());
 			EntityShootBowEvent event =
 				new EntityShootBowEvent(player, hand, arrow, (float) originalArrow.getVelocity().length());
 			Bukkit.getPluginManager().callEvent(event);
-			if (evt.isCancelled()) {
+			if (event.isCancelled()) {
 				arrow.remove();
 				return false;
 			}
 			arrow.setMetadata("ze.arrow", new FixedMetadataValue(Storage.zenchantments, null));
 			arrow.setCritical(originalArrow.isCritical());
-			EnchantedArrow.putArrow(originalArrow, new MultiArrow(originalArrow), player);
+			EnchantedArrow.putArrow(arrow, new MultiArrow(arrow), player);
 		}
 		return true;
 	}
