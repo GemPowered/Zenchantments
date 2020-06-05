@@ -23,6 +23,7 @@ import org.bukkit.event.inventory.InventoryType.SlotType;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerPickupArrowEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -306,6 +307,12 @@ public class Watcher implements Listener {
             evt.getItem().remove();
             evt.setCancelled(true);
         }
+    }
+
+    // Prevent player objects from filling up the EnchantPlayer table when players go offline.
+    @EventHandler
+    public void onPlayerQuit(PlayerQuitEvent evt) {
+        EnchantPlayer.removePlayer(evt.getPlayer());
     }
 
 }
