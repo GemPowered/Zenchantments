@@ -58,7 +58,7 @@ public class WatcherEnchant implements Listener {
             Player player = evt.getPlayer();
             boolean usedHand = Utilities.isMainHand(HAND);
             ItemStack usedStack = Utilities.usedStack(player, usedHand);
-            CustomEnchantment.applyForTool(player, usedStack, (ench, level) -> {
+            CustomEnchantment.applyForTool(player, evt, usedStack, (ench, level) -> {
                 return ench.onBlockBreak(evt, level, usedHand);
             });
         }
@@ -69,7 +69,7 @@ public class WatcherEnchant implements Listener {
             Player player = evt.getPlayer();
             boolean usedHand = Utilities.isMainHand(HAND);
             ItemStack usedStack = Utilities.usedStack(player, usedHand);
-            CustomEnchantment.applyForTool(player, usedStack, (ench, level) -> {
+            CustomEnchantment.applyForTool(player, evt, usedStack, (ench, level) -> {
                 return ench.onBlockBreak(evt, level, usedHand);
             });
         }
@@ -81,7 +81,7 @@ public class WatcherEnchant implements Listener {
             Player player = evt.getPlayer();
             boolean isMainHand = Utilities.isMainHand(evt.getHand());
             for (ItemStack usedStack : Utilities.getArmorAndMainHandItems(player, isMainHand)) {
-                CustomEnchantment.applyForTool(player, usedStack, (ench, level) -> {
+                CustomEnchantment.applyForTool(player, evt, usedStack, (ench, level) -> {
                     return ench.onBlockInteract(evt, level, isMainHand);
                 });
             }
@@ -94,7 +94,7 @@ public class WatcherEnchant implements Listener {
             Player player = evt.getPlayer();
             boolean isMainHand = Utilities.isMainHand(evt.getHand());
             for (ItemStack usedStack : Utilities.getArmorAndMainHandItems(player, isMainHand)) {
-                CustomEnchantment.applyForTool(player, usedStack, (ench, level) -> {
+                CustomEnchantment.applyForTool(player, evt, usedStack, (ench, level) -> {
                     return ench.onBlockInteractInteractable(evt, level, isMainHand);
                 });
             }
@@ -108,7 +108,7 @@ public class WatcherEnchant implements Listener {
         if (!ArrayUtils.contains(badEnts, evt.getRightClicked().getType())) {
             boolean usedHand = Utilities.isMainHand(HAND);
             ItemStack usedStack = Utilities.usedStack(player, usedHand);
-            CustomEnchantment.applyForTool(player, usedStack, (ench, level) -> {
+            CustomEnchantment.applyForTool(player, evt, usedStack, (ench, level) -> {
                 return ench.onEntityInteract(evt, level, usedHand);
             });
         }
@@ -128,7 +128,7 @@ public class WatcherEnchant implements Listener {
                     : EquipmentSlot.HAND;
             boolean usedHand = Utilities.isMainHand(slot);
             ItemStack usedStack = Utilities.usedStack(player, usedHand);
-            CustomEnchantment.applyForTool(player, usedStack, (ench, level) -> {
+            CustomEnchantment.applyForTool(player, evt, usedStack, (ench, level) -> {
                 return ench.onEntityKill(evt, level, usedHand);
             });
 
@@ -145,7 +145,7 @@ public class WatcherEnchant implements Listener {
             boolean usedHand = Utilities.isMainHand(HAND);
             if (evt.getEntity() instanceof LivingEntity) {
                 for (ItemStack usedStack : Utilities.getArmorAndMainHandItems(player, usedHand)) {
-                    CustomEnchantment.applyForTool(player, usedStack, (ench, level) -> {
+                    CustomEnchantment.applyForTool(player, evt, usedStack, (ench, level) -> {
                         return ench.onEntityHit(evt, level, usedHand);
                     });
                 }
@@ -155,7 +155,7 @@ public class WatcherEnchant implements Listener {
             Player player = (Player) evt.getEntity();
             for (ItemStack usedStack : Utilities.getArmorAndMainHandItems(player,
                     true)) { // Only check main hand for some reason
-                CustomEnchantment.applyForTool(player, usedStack, (ench, level) -> {
+                CustomEnchantment.applyForTool(player, evt, usedStack, (ench, level) -> {
                     return ench.onBeingHit(evt, level, true);
                 });
             }
@@ -167,7 +167,7 @@ public class WatcherEnchant implements Listener {
         if (evt.getEntity() instanceof Player) {
             Player player = (Player) evt.getEntity();
             for (ItemStack usedStack : Utilities.getArmorAndMainHandItems(player, false)) {
-                CustomEnchantment.applyForTool(player, usedStack, (ench, level) -> {
+                CustomEnchantment.applyForTool(player, evt, usedStack, (ench, level) -> {
                     return ench.onEntityDamage(evt, level, false);
                 });
             }
@@ -182,7 +182,7 @@ public class WatcherEnchant implements Listener {
         boolean usedHand
                 = Utilities.isMainHand(main != Tool.ROD && off == Tool.ROD ? EquipmentSlot.OFF_HAND : EquipmentSlot.HAND);
         ItemStack usedStack = Utilities.usedStack(player, usedHand);
-        CustomEnchantment.applyForTool(player, usedStack, (ench, level) -> {
+        CustomEnchantment.applyForTool(player, evt, usedStack, (ench, level) -> {
             return ench.onPlayerFish(evt, level, true);
         });
     }
@@ -192,7 +192,7 @@ public class WatcherEnchant implements Listener {
         if (!evt.isCancelled() && evt.getEntity() instanceof Player) {
             Player player = (Player) evt.getEntity();
             for (ItemStack usedStack : Utilities.getArmorAndMainHandItems(player, true)) {
-                CustomEnchantment.applyForTool(player, usedStack, (ench, level) -> {
+                CustomEnchantment.applyForTool(player, evt, usedStack, (ench, level) -> {
                     return ench.onHungerChange(evt, level, true);
                 });
             }
@@ -209,7 +209,7 @@ public class WatcherEnchant implements Listener {
                         : EquipmentSlot.HAND);
         ItemStack usedStack = Utilities.usedStack(player, usedHand);
         if (!evt.isCancelled()) {
-            CustomEnchantment.applyForTool(player, usedStack, (ench, level) -> {
+            CustomEnchantment.applyForTool(player, evt, usedStack, (ench, level) -> {
                 return ench.onShear(evt, level, true);
             });
         }
@@ -224,7 +224,7 @@ public class WatcherEnchant implements Listener {
             boolean usedHand
                     = Utilities.isMainHand(main != BOW && off == BOW ? EquipmentSlot.OFF_HAND : EquipmentSlot.HAND);
             ItemStack usedStack = Utilities.usedStack(player, usedHand);
-            CustomEnchantment.applyForTool(player, usedStack, (ench, level) -> {
+            CustomEnchantment.applyForTool(player, evt, usedStack, (ench, level) -> {
                 return ench.onEntityShootBow(evt, level, true);
             });
         }
@@ -238,7 +238,7 @@ public class WatcherEnchant implements Listener {
                 Player player = (Player) entity;
                 AtomicBoolean apply = new AtomicBoolean(true);
                 for (ItemStack usedStack : Utilities.getArmorAndMainHandItems(player, true)) {
-                    CustomEnchantment.applyForTool(player, usedStack, (ench, level) -> {
+                    CustomEnchantment.applyForTool(player, evt, usedStack, (ench, level) -> {
                         // Only apply one enchantment, which in practice is Potion Resistance.
                         // This will always skip execution of the Lambda and return false after a Lambda returned true
                         // once
@@ -260,7 +260,7 @@ public class WatcherEnchant implements Listener {
                     main != BOW && main != Tool.ROD && (off == BOW || off == Tool.ROD) ? EquipmentSlot.OFF_HAND
                             : EquipmentSlot.HAND);
             ItemStack usedStack = Utilities.usedStack(player, usedHand);
-            CustomEnchantment.applyForTool(player, usedStack, (ench, level) -> {
+            CustomEnchantment.applyForTool(player, evt, usedStack, (ench, level) -> {
                 return ench.onProjectileLaunch(evt, level, usedHand);
             });
         }
@@ -270,7 +270,7 @@ public class WatcherEnchant implements Listener {
     public void onDeath(PlayerDeathEvent evt) {
         Player player = evt.getEntity();
         for (ItemStack usedStack : (ItemStack[]) ArrayUtils.addAll(player.getInventory().getArmorContents(), (player.getInventory().getContents()))) {
-            CustomEnchantment.applyForTool(player, usedStack, (ench, level) -> {
+            CustomEnchantment.applyForTool(player, evt, usedStack, (ench, level) -> {
                 return ench.onPlayerDeath(evt, level, true);
             });
         }
@@ -282,7 +282,7 @@ public class WatcherEnchant implements Listener {
             Player player = (Player) evt.getEntity();
             for (ItemStack usedStack : (ItemStack[]) ArrayUtils.addAll(player.getInventory().getArmorContents(),
                     player.getInventory().getContents())) {
-                CustomEnchantment.applyForTool(player, usedStack, (ench, level) -> {
+                CustomEnchantment.applyForTool(player, evt, usedStack, (ench, level) -> {
                     return ench.onCombust(evt, level, true);
                 });
             }
@@ -312,7 +312,7 @@ public class WatcherEnchant implements Listener {
     // Implicitly scheduled MEDIUM_HIGH due to being called by HighFrequencyEnchCache with interval 5
     private static void feedEnchCache(Player player, Consumer<Supplier<Boolean>> consoomer) {
         for (ItemStack stk : player.getInventory().getArmorContents()) {
-            CustomEnchantment.applyForTool(player, stk, (ench, level) -> {
+            CustomEnchantment.applyForTool(player, null, stk, (ench, level) -> {
                 consoomer.accept(() -> {
                     if (!player.isOnline()) {
                         return false;
@@ -325,7 +325,7 @@ public class WatcherEnchant implements Listener {
                 return ench.onScan(player, level, true);
             });
         }
-        CustomEnchantment.applyForTool(player, player.getInventory().getItemInMainHand(), (ench, level) -> {
+        CustomEnchantment.applyForTool(player, null, player.getInventory().getItemInMainHand(), (ench, level) -> {
             consoomer.accept(() -> {
                 if (!player.isOnline()) {
                     return false;
@@ -337,7 +337,7 @@ public class WatcherEnchant implements Listener {
             });
             return ench.onScanHands(player, level, true);
         });
-        CustomEnchantment.applyForTool(player, player.getInventory().getItemInOffHand(), (ench, level) -> {
+        CustomEnchantment.applyForTool(player, null, player.getInventory().getItemInOffHand(), (ench, level) -> {
             consoomer.accept(() -> {
                 if (!player.isOnline()) {
                     return false;
