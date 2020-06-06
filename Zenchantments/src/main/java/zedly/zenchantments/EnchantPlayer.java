@@ -4,6 +4,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 // This is used to manage players on the server. It allows for easy access in enabling/disabling enchantments
@@ -24,13 +25,14 @@ public class EnchantPlayer {
 
 	// Decrements the players cooldowns by one tick
 	public void tick() {
-		for (int enchantmentID : enchantCooldown.keySet()) {
-			int cooldown = enchantCooldown.get(enchantmentID);
+		for (Iterator<Map.Entry<Integer, Integer>> iterator = enchantCooldown.entrySet().iterator(); iterator.hasNext();) {
+			Map.Entry<Integer, Integer> entry = iterator.next();
+			int cooldown = entry.getValue();
 			if (cooldown <= 1) {
-				enchantCooldown.remove(enchantmentID);
+				iterator.remove();
 			}
 			else {
-				enchantCooldown.put(enchantmentID, cooldown - 1);
+				entry.setValue(cooldown - 1);
 			}
 		}
 	}
