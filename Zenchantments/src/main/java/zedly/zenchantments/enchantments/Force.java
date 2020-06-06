@@ -2,14 +2,17 @@ package zedly.zenchantments.enchantments;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Difficulty;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 import zedly.zenchantments.CustomEnchantment;
 import zedly.zenchantments.Storage;
@@ -57,11 +60,18 @@ public class Force extends CustomEnchantment {
 			List<Entity> nearEnts = player.getNearbyEntities(5, 5, 5);
 			if (!nearEnts.isEmpty()) {
 				if (player.getFoodLevel() >= 2) {
-					if (Storage.rnd.nextInt(10) == 5) {
-						FoodLevelChangeEvent event = new FoodLevelChangeEvent(player, 2);
+					if ((player.getWorld().getDifficulty() != Difficulty.PEACEFUL) && Storage.rnd.nextInt(10) == 5) {
+						int foodLevel = player.getFoodLevel();
+						FoodLevelChangeEvent event = new FoodLevelChangeEvent(player, foodLevel -2);
 						Bukkit.getServer().getPluginManager().callEvent(event);
-						if (!event.isCancelled()) {
-							player.setFoodLevel(player.getFoodLevel() - 2);
+						if (!event.isCancelled() && event.getFoodLevel() != foodLevel) {
+							player.setFoodLevel(event.getFoodLevel());
+						}
+						if (event.isCancelled() || event.getFoodLevel() > foodLevel - 2) {
+							if (player.getHealth() <= 2) {
+								return false;
+							}
+							ADAPTER.damagePlayer(player, 2.0, EntityDamageEvent.DamageCause.MAGIC);
 						}
 					}
 					for (Entity ent : nearEnts) {
