@@ -25,7 +25,13 @@ public class EnchantPlayer {
 	// Decrements the players cooldowns by one tick
 	public void tick() {
 		for (int enchantmentID : enchantCooldown.keySet()) {
-			enchantCooldown.put(enchantmentID, Math.max(enchantCooldown.get(enchantmentID) - 1, 0));
+			int cooldown = enchantCooldown.get(enchantmentID);
+			if (cooldown <= 1) {
+				enchantCooldown.remove(enchantmentID);
+			}
+			else {
+				enchantCooldown.put(enchantmentID, cooldown - 1);
+			}
 		}
 	}
 
