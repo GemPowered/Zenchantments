@@ -195,97 +195,101 @@ public class Spectral extends CustomEnchantment {
                 final Material newMatFinal = newMat;
                 Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Storage.zenchantments, () -> {
 
+                    if (adapter.placeBlock(block, player, newMatFinal, null)) {
+                        return;
+                    }
+
                     if (blockData instanceof Bisected) {
                         Bisected newBlockData = (Bisected) block.getBlockData();
                         newBlockData.setHalf(((Bisected) blockData).getHalf());
-                        if (adapter.placeBlock(block, player, newMatFinal, newBlockData)) {
-                            // Set the second half's data
-                            if (block.getRelative(BlockFace.UP).getType().equals(original)) {
-                                newBlockData.setHalf(Bisected.Half.TOP);
-                                block.getRelative(BlockFace.UP).setBlockData(newBlockData, false);
-                            }
-                            if (block.getRelative(BlockFace.DOWN).getType().equals(original)) {
-                                newBlockData.setHalf(Bisected.Half.BOTTOM);
-                                block.getRelative(BlockFace.DOWN).setBlockData(newBlockData, false);
-                            }
+                        block.setBlockData(newBlockData);
+
+                        // Set the second half's data
+                        if (block.getRelative(BlockFace.UP).getType().equals(original)) {
+                            newBlockData.setHalf(Bisected.Half.TOP);
+                            block.getRelative(BlockFace.UP).setBlockData(newBlockData, false);
+                        }
+                        if (block.getRelative(BlockFace.DOWN).getType().equals(original)) {
+                            newBlockData.setHalf(Bisected.Half.BOTTOM);
+                            block.getRelative(BlockFace.DOWN).setBlockData(newBlockData, false);
                         }
                     }
 
                     if (blockData instanceof Bed) {
-                        Bed newBlockData = (Bed) block.getBlockData();
-                        newBlockData.setPart(((Bed) blockData).getPart());
-                        if (adapter.placeBlock(block, player, newMatFinal, newBlockData)) {
-                        	// Set the second bed's part
-                            BlockFace facing = !newBlockData.getPart().equals(Bed.Part.HEAD)
-                                    ? ((Bed) blockData).getFacing()
-                                    : ((Bed) blockData).getFacing().getOppositeFace();
-                            newBlockData.setPart(((Bed) block.getRelative(facing).getBlockData()).getPart());
-                            block.getRelative(facing).setBlockData(newBlockData, false);
+                         Bed newBlockData = (Bed) block.getBlockData();
+                         newBlockData.setPart(((Bed) blockData).getPart());
+                         block.setBlockData(newBlockData);
 
-                            // Set the second bed's direction since we never do that later on
-                            Directional secondaryBlockData = (Directional) block.getRelative(facing).getBlockData();
-                            secondaryBlockData.setFacing(((Directional) blockData).getFacing());
-                            block.getRelative(facing).setBlockData(secondaryBlockData, true);
-                        }
+                         // Set the second bed's part
+                         BlockFace facing = !newBlockData.getPart().equals(Bed.Part.HEAD)
+                                 ? ((Bed) blockData).getFacing()
+                                 : ((Bed) blockData).getFacing().getOppositeFace();
+                         newBlockData.setPart(((Bed) block.getRelative(facing).getBlockData()).getPart());
+                         block.getRelative(facing).setBlockData(newBlockData, false);
+
+                         // Set the second bed's direction since we never do that later on
+                         Directional secondaryBlockData = (Directional) block.getRelative(facing).getBlockData();
+                         secondaryBlockData.setFacing(((Directional) blockData).getFacing());
+                         block.getRelative(facing).setBlockData(secondaryBlockData, true);
                     }
 
                     if (blockData instanceof Gate) {
                         Gate newBlockData = (Gate) block.getBlockData();
                         newBlockData.setInWall(((Gate) blockData).isInWall());
-                        adapter.placeBlock(block, player, newMatFinal, newBlockData);
+                        block.setBlockData(newBlockData);
                     }
 
                     if (blockData instanceof Door) {
                         Door newBlockData = (Door) block.getBlockData();
                         newBlockData.setHinge(((Door) blockData).getHinge());
-                        adapter.placeBlock(block, player, newMatFinal, newBlockData);
+                        block.setBlockData(newBlockData);
                     }
 
                     if (blockData instanceof Orientable) {
                         Orientable newBlockData = (Orientable) block.getBlockData();
                         newBlockData.setAxis(((Orientable) blockData).getAxis());
-                        adapter.placeBlock(block, player, newMatFinal, newBlockData);
+                        block.setBlockData(newBlockData);
                     }
 
                     if (blockData instanceof Powerable) {
                         Powerable newBlockData = (Powerable) block.getBlockData();
                         newBlockData.setPowered(((Powerable) blockData).isPowered());
-                        adapter.placeBlock(block, player, newMatFinal, newBlockData);
+                        block.setBlockData(newBlockData);
                     }
 
                     if (blockData instanceof Openable) {
                         Openable newBlockData = (Openable) block.getBlockData();
                         newBlockData.setOpen(((Openable) blockData).isOpen());
-                        adapter.placeBlock(block, player, newMatFinal, newBlockData);
+                        block.setBlockData(newBlockData);
                     }
 
                     if (blockData instanceof Stairs) {
                         Stairs newBlockData = (Stairs) block.getBlockData();
                         newBlockData.setShape(((Stairs) blockData).getShape());
-                        adapter.placeBlock(block, player, newMatFinal, newBlockData);
+                        block.setBlockData(newBlockData);
                     }
 
                     if (blockData instanceof Slab) {
                         Slab newBlockData = (Slab) block.getBlockData();
                         newBlockData.setType(((Slab) blockData).getType());
-                        adapter.placeBlock(block, player, newMatFinal, newBlockData);
+                        block.setBlockData(newBlockData);
                     }
                     if (blockData instanceof MultipleFacing) {
                         MultipleFacing newBlockData = (MultipleFacing) block.getBlockData();
                         for (BlockFace bf : ((MultipleFacing) blockData).getFaces()) {
                             newBlockData.setFace(bf, true);
                         }
-                        adapter.placeBlock(block, player, newMatFinal, newBlockData);
+                        block.setBlockData(newBlockData);
                     }
                     if (blockData instanceof Directional) {
                         Directional newBlockData = (Directional) block.getBlockData();
                         newBlockData.setFacing(((Directional) blockData).getFacing());
-                        adapter.placeBlock(block, player, newMatFinal, newBlockData);
+                        block.setBlockData(newBlockData);
                     }
                     if (blockData instanceof Waterlogged) {
                         Waterlogged newBlockData = (Waterlogged) block.getBlockData();
                         newBlockData.setWaterlogged(((Waterlogged) blockData).isWaterlogged());
-                        adapter.placeBlock(block, player, newMatFinal, newBlockData);
+                        block.setBlockData(newBlockData);
                     }
                 }, 0);
             }

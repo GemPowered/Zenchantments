@@ -62,13 +62,13 @@ public class Force extends CustomEnchantment {
 				if (player.getFoodLevel() >= 2) {
 					if ((player.getWorld().getDifficulty() != Difficulty.PEACEFUL) && Storage.rnd.nextInt(10) == 5) {
 						int foodLevel = player.getFoodLevel();
-						FoodLevelChangeEvent event = new FoodLevelChangeEvent(player, foodLevel -2);
+						FoodLevelChangeEvent event = new FoodLevelChangeEvent(player, foodLevel - 2);
 						Bukkit.getServer().getPluginManager().callEvent(event);
 						if (!event.isCancelled() && event.getFoodLevel() != foodLevel) {
 							player.setFoodLevel(event.getFoodLevel());
 						}
-						if (event.isCancelled() || event.getFoodLevel() > foodLevel - 2) {
-							if (player.getHealth() <= 2) {
+						if (event.isCancelled() || event.getFoodLevel() > (foodLevel - 2)) {
+							if (player.getHealth() <= 2.0) {
 								return false;
 							}
 							ADAPTER.damagePlayer(player, 2.0, EntityDamageEvent.DamageCause.MAGIC);
