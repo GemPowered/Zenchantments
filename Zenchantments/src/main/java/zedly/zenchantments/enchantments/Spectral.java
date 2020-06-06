@@ -195,7 +195,7 @@ public class Spectral extends CustomEnchantment {
                 final Material newMatFinal = newMat;
                 Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Storage.zenchantments, () -> {
 
-                    if (adapter.placeBlock(block, player, newMatFinal, null)) {
+                    if (!adapter.placeBlock(block, player, newMatFinal, null)) {
                         return;
                     }
 
