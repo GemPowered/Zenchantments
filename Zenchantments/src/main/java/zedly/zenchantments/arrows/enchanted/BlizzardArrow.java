@@ -22,8 +22,8 @@ public class BlizzardArrow extends EnchantedArrow {
             if (e instanceof LivingEntity && !e.equals(arrow.getShooter())
                     && Storage.COMPATIBILITY_ADAPTER.attackEntity(
                             (LivingEntity) e, (Player) arrow.getShooter(), 0)) {
-                Utilities.addPotion((LivingEntity) e, SLOW, (int) Math.round(50 + getLevel()
-                        * getPower() * 50), (int) Math.round(getLevel() * getPower() * 2));
+                Utilities.addPotion((LivingEntity) e, SLOW, (int) Math.round(10 + getLevel()
+                        * getPower() * 20), (int) Math.round(getLevel() * getPower() * 2));
             }
         }
         die();

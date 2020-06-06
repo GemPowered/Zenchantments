@@ -30,7 +30,7 @@ public class Reaper extends CustomEnchantment {
 			.enchantable(new Tool[]{BOW, SWORD})
 			.conflicting(new Class[]{})
 			.description("Gives the target temporary wither effect and blindness")
-			.cooldown(0)
+			.cooldown(4 * 20)
 			.power(1.0)
 			.handUse(Hand.BOTH);
 	}
