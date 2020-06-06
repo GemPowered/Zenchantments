@@ -24,7 +24,7 @@ public class Fireworks extends CustomEnchantment {
 			.enchantable(new Tool[]{BOW})
 			.conflicting(new Class[]{})
 			.description("Shoots arrows that burst into fireworks upon impact")
-			.cooldown(0)
+			.cooldown(4 * 20)
 			.power(-1.0)
 			.handUse(Hand.RIGHT);
 	}
