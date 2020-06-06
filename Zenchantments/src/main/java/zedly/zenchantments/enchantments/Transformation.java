@@ -56,7 +56,7 @@ public class Transformation extends CustomEnchantment {
         if (!evt.getEntity().isEmpty() || evt.getEntity().isInsideVehicle()) {
             return false;
         }
-        if (evt.getEntity().getScoreboardTags().size() == 0) {
+        if (!evt.getEntity().getScoreboardTags().isEmpty()) {
             return false;
         }
         if (!((LivingEntity) evt.getEntity()).hasAI()) {
